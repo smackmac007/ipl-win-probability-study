@@ -15,7 +15,7 @@ Evaluation window: **IPL 2024, 2025 and 2026** (215 decided matches). Every pred
 - **The model becomes informative as the match unfolds.** Accuracy climbs from about 50% before the toss to 68% at the innings break, 81% at 10 overs into the chase and 90% at 18 overs.
 - **High-confidence calls late in the chase hold up.** At 10 overs into the chase, picks at 90%+ confidence won 65/69 (94%). At 18 overs, 118/120 (98%).
 - **The innings break is still overconfident at the top end.** Picks at 90%+ won only 16/21 (76%).
-- **No betting edge was found.** Against real prediction-market prices (Polymarket, 73 matches of IPL 2026) the model lost money, with a confidence interval spanning zero. In the IPL 2026 simulation, betting before the match or at the innings break lost money. Chase-stage bets ended up only at "fair" odds, which assume someone prices exactly at the model's own number. That is not a real-world edge.
+- **No betting edge was found.** Against real prediction-market prices (Polymarket, 73 matches of IPL 2026) the model lost money, with a confidence interval spanning zero. In the IPL 2026 simulation, betting before the match or at the innings break lost money. Chase-stage bets ended in profit only at "fair" odds, which assume someone prices exactly at the model's own number. That is not a real-world edge.
 
 ## Accuracy by situation and confidence
 
@@ -87,7 +87,7 @@ Final bankroll after the tournament:
 | Chase, 18 overs | ₹12,369 | ₹13,721 | ₹12,266 | ₹11,265 | ₹10,848 |
 
 - **Before the match and at the innings break:** betting lost money, and several strategies went bust.
-- **Chase-stage strategies ended up in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. The same strategies lost in some earlier seasons.
+- **Chase-stage strategies ended in profit in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. The same strategies lost in some earlier seasons.
 - **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets.
 
 All checkpoints, the 2,000-run luck analysis and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
