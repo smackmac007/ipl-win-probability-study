@@ -1,40 +1,55 @@
 # How much does an IPL win-probability model actually know?
 
-A walk-forward study of an IPL match-winner model at ten points in a match, from before the toss to the 18th over of the chase. For each point it answers two questions:
+A study of an IPL match-winner model on the **IPL 2026 tournament**, at ten points in a match, from before the toss to the 18th over of the chase. For each point it answers two questions:
 
 1. **When the model says X% confident, how often is it right?** (calibration, by confidence band)
-2. **What would a ₹10,000 bankroll have done betting on it through the IPL 2026 tournament?** (a simulation only - see [DISCLAIMER.md](DISCLAIMER.md))
+2. **What would a ₹10,000 bankroll have done betting on it through IPL 2026?** (a simulation only - see [DISCLAIMER.md](DISCLAIMER.md))
 
-Evaluation window: **IPL 2024, 2025 and 2026** (215 decided matches). Every prediction was made using only matches played before it. The model was never trained on the match it predicts.
+**Test set: IPL 2026 only** (73 decided matches; one no-result excluded).
+- The models were trained on matches played before each prediction: other T20 leagues and internationals, plus earlier IPL seasons.
+- The in-play model was trained on seasons up to 2025.
+- No 2026 result was used to predict itself.
 
 > **This is a research project, not betting advice.** Betting is illegal in many places, including most of India. Read [DISCLAIMER.md](DISCLAIMER.md) before anything else.
 
-## Headline findings
+## Headline findings (IPL 2026)
 
-- **Before the match, the model is no better than a coin flip.** Log loss 0.69-0.72 against 0.693 for 50/50, across every model tried (player ratings, team Elo, gradient boosting, logistic regression). It never reached 70% confidence before the toss. When it said 60-70%, the picked side won only 35% of the time (13/37).
-- **The model becomes informative as the match unfolds.** Accuracy climbs from about 50% before the toss to 68% at the innings break, 81% at 10 overs into the chase and 90% at 18 overs.
-- **High-confidence calls late in the chase hold up.** At 10 overs into the chase, picks at 90%+ confidence won 65/69 (94%). At 18 overs, 118/120 (98%).
-- **The innings break is still overconfident at the top end.** Picks at 90%+ won only 16/21 (76%).
-- **No betting edge was found.** Against real prediction-market prices (Polymarket, 73 matches of IPL 2026) the model lost money, with a confidence interval spanning zero. In the IPL 2026 simulation, betting before the match or at the innings break lost money. Chase-stage bets ended in profit only at "fair" odds, which assume someone prices exactly at the model's own number. That is not a real-world edge.
+- **Before the match, the model was no better than a coin flip.**
+  - Every model tried scored a log loss of 0.69-0.74, against 0.693 for a 50/50 guess. That covers player ratings, team Elo, gradient boosting and logistic regression.
+  - The favoured side won 35 of 73 matches (48%).
+  - The model never reached 70% confidence before the toss. Its 60%+ picks won only 2 of 9.
+- **The model became informative as the match unfolded.** Accuracy climbed from 48% before the toss to 62% at the innings break, 83% at 10 overs into the chase and 93% at 18 overs.
+- **High-confidence calls in the chase held up.** Every pick at 90%+ confidence from 6 overs into the chase onward was right:
+  - 16/16 at 6 overs;
+  - 20/20 at 10 overs;
+  - 35/35 at 15 overs;
+  - 36/36 at 18 overs.
+- **The innings break was overconfident.** Picks at 80%+ won only 12/18 (67%).
+- **No real betting edge was found.**
+  - Against real prediction-market prices before the toss (Polymarket), the model lost money.
+  - In the ₹10,000 simulation, betting before the match or at the innings break lost money.
+  - Chase-stage bets ended in profit only at "fair" odds, which assume someone prices exactly at the model's own number. That is not a real-world edge.
 
-## Accuracy by situation and confidence
+## Accuracy by situation and confidence (IPL 2026)
 
 How often the side the model favoured went on to win, counting every match where its confidence was at least the threshold.
 
 | Situation | ≥50% (all) | ≥60% | ≥70% | ≥80% | ≥90% |
 |---|---|---|---|---|---|
-| Before the toss | 106/215 (49%) | 13/37 (35%) | none | none | none |
-| After the toss | 100/215 (47%) | 13/29 (45%) | 1/4 | none | none |
-| 1st innings, 6 overs | 129/215 (60%) | 71/115 (62%) | 30/43 (70%) | 7/9 (78%) | 2/2 |
-| 1st innings, 10 overs | 127/215 (59%) | 88/137 (64%) | 41/59 (69%) | 15/19 (79%) | none |
-| 1st innings, 15 overs | 144/213 (68%) | 106/148 (72%) | 71/93 (76%) | 37/47 (79%) | 5/6 |
-| Innings break | 147/215 (68%) | 120/162 (74%) | 87/107 (81%) | 45/58 (78%) | 16/21 (76%) |
-| Chase, 6 overs | 168/215 (78%) | 149/183 (81%) | 126/143 (88%) | 91/100 (91%) | 54/59 (92%) |
-| Chase, 10 overs | 172/213 (81%) | 155/187 (83%) | 141/158 (89%) | 106/115 (92%) | 65/69 (94%) |
-| Chase, 15 overs | 174/202 (86%) | 162/182 (89%) | 147/162 (91%) | 130/139 (94%) | 98/100 (98%) |
-| Chase, 18 overs | 154/171 (90%) | 147/157 (94%) | 141/147 (96%) | 133/138 (96%) | 118/120 (98%) |
+| Before the toss | 35/73 (48%) | 2/9 (22%) | none | none | none |
+| After the toss | 35/73 (48%) | none | none | none | none |
+| 1st innings, 6 overs | 41/73 (56%) | 23/42 (55%) | 12/20 (60%) | 1/1 | 1/1 |
+| 1st innings, 10 overs | 43/73 (59%) | 29/51 (57%) | 9/14 (64%) | 3/3 | none |
+| 1st innings, 15 overs | 44/72 (61%) | 33/49 (67%) | 24/33 (73%) | 10/14 (71%) | 1/1 |
+| Innings break | 45/73 (62%) | 38/56 (68%) | 28/38 (74%) | 12/18 (67%) | 2/3 |
+| Chase, 6 overs | 59/73 (81%) | 53/65 (82%) | 46/50 (92%) | 32/33 (97%) | 16/16 (100%) |
+| Chase, 10 overs | 60/72 (83%) | 52/62 (84%) | 48/52 (92%) | 37/38 (97%) | 20/20 (100%) |
+| Chase, 15 overs | 62/69 (90%) | 59/64 (92%) | 53/57 (93%) | 46/47 (98%) | 35/35 (100%) |
+| Chase, 18 overs | 54/58 (93%) | 52/53 (98%) | 49/50 (98%) | 46/47 (98%) | 36/36 (100%) |
 
-Fewer matches reach the later chase checkpoints because many chases finish early. Per-band results with 95% intervals are in [RESULTS.md](RESULTS.md).
+- Percentages are omitted for cells with fewer than 5 matches.
+- Fewer matches reach the later chase checkpoints because many chases finish early.
+- [RESULTS.md](RESULTS.md) has band-by-band results with 95% intervals, pooled over IPL 2024-26 for a larger sample.
 
 ### How to read a confidence number
 
@@ -71,7 +86,6 @@ Full details are in [METHODOLOGY.md](METHODOLOGY.md).
 Hypothetical only (see [DISCLAIMER.md](DISCLAIMER.md)).
 
 **Setup:**
-- Only IPL 2026 is used, because every 2026 prediction came from models trained on earlier matches.
 - The bankroll starts at ₹10,000 at the first match. Matches are taken in date order, with at most one bet per match.
 - A flat ₹1,000 goes on the model's pick whenever its confidence is at least the threshold.
 - Payout is at the model's own probability, with winnings cut by 5% to mimic a bookmaker margin.
@@ -87,7 +101,7 @@ Final bankroll after the tournament:
 | Chase, 18 overs | ₹12,369 | ₹13,721 | ₹12,266 | ₹11,265 | ₹10,848 |
 
 - **Before the match and at the innings break:** betting lost money, and several strategies went bust.
-- **Chase-stage strategies ended in profit in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. The same strategies lost in some earlier seasons.
+- **Chase-stage strategies ended in profit in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. It is one season, not repeatable evidence.
 - **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets.
 
 All checkpoints, the 2,000-run luck analysis and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
@@ -98,17 +112,17 @@ All checkpoints, the 2,000-run luck analysis and the real-price comparison are i
 - **An "Impact Player era" adjustment:** scoring rose by about 22 runs from 2023, but the model's accuracy did not change, and no adjustment helped.
 - **A ball-by-ball Monte Carlo simulator,** alone or blended with the main model: an early gain disappeared once data errors were fixed. The simulator underestimates modern IPL scoring.
 - **Claims of beating Elo before the match:** a model trained on shuffled results beat Elo by the same margin. Elo is simply overconfident; no model beat it on skill.
-- **Multiple-testing check:** many variants were compared on the same three seasons. After correcting for that, none of the earlier "significant" improvements held up.
+- **Multiple-testing check:** many variants were compared during development. After correcting for that, none of the apparent "significant" improvements held up.
 
 Negative results are reported deliberately. They are as informative as the positive ones.
 
 ## Limitations
 
-- **Small sample.** 215 matches is small; individual confidence bands often hold only 20-60 matches.
+- **Small sample.** One tournament is 73 matches. Many confidence bands hold fewer than 20, so single cells can swing a lot by chance.
 - **Over boundaries only.** In-play predictions are made at over boundaries, not ball by ball.
 - **Impact players.** From 2023, these substitutes can't be told apart from the starting XI in the source data.
-- **Limited market comparison.** One season only (73 matches), pre-match prices only.
-- **Unconfirmed on future seasons.** Results may not hold for future seasons.
+- **Limited market comparison.** Pre-match prices only; no real in-play prices were tested.
+- **One season.** Design choices were made after seeing results that included 2026, so this is close to, but not exactly, an untouched test. IPL 2027 predictions logged in advance would be the cleanest check.
 
 ## Contents
 
