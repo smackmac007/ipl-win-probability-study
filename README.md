@@ -87,7 +87,7 @@ Hypothetical only (see [DISCLAIMER.md](DISCLAIMER.md)).
 
 **Setup:**
 - The bankroll starts at ₹10,000 at the first match. Matches are taken in date order, with at most one bet per match.
-- A flat ₹2,000 goes on the model's pick whenever its confidence is at least the threshold.
+- A flat ₹5,000 goes on the model's pick whenever its confidence is at least the threshold. If the bankroll drops below ₹5,000, whatever is left is bet.
 - Payout is at the model's own probability, with winnings cut by 5% to mimic a bookmaker margin.
 - Betting stops if the bankroll hits zero.
 
@@ -96,13 +96,14 @@ Final bankroll after the tournament:
 | When the bet is placed | ≥50% | ≥60% | ≥70% | ≥80% | ≥90% |
 |---|---|---|---|---|---|
 | Before the toss | bust | bust | no bets | no bets | no bets |
-| Innings break | bust | bust | ₹3,634 | ₹1,397 | ₹8,279 |
-| Chase, 10 overs | ₹16,667 | ₹8,407 | ₹16,488 | ₹15,660 | ₹12,413 |
-| Chase, 18 overs | ₹14,738 | ₹17,441 | ₹14,532 | ₹12,529 | ₹11,695 |
+| Innings break | bust | bust | bust | bust | ₹5,698 |
+| Chase, 6 overs | ₹23,757 | ₹9,981 | ₹30,459 | ₹22,759 | ₹14,626 |
+| Chase, 10 overs | ₹26,668 | bust | ₹26,220 | ₹24,149 | ₹16,034 |
+| Chase, 18 overs | ₹6,001 | ₹28,604 | ₹21,331 | ₹16,323 | ₹14,238 |
 
 - **Before the match and at the innings break:** betting lost money, and several strategies went bust.
 - **Chase-stage strategies ended in profit in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. It is one season, not repeatable evidence.
-- **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets (₹10,000 down to ₹4,647).
+- **Against real Polymarket prices before the toss:** the model lost money, and at ₹5,000 a bet the bankroll went bust within the first few bets.
 
 All checkpoints, the 2,000-run luck analysis and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
 
