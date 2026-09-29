@@ -87,7 +87,7 @@ Hypothetical only (see [DISCLAIMER.md](DISCLAIMER.md)).
 
 **Setup:**
 - The bankroll starts at ₹10,000 at the first match. Matches are taken in date order, with at most one bet per match.
-- A flat ₹1,000 goes on the model's pick whenever its confidence is at least the threshold.
+- A flat ₹2,000 goes on the model's pick whenever its confidence is at least the threshold.
 - Payout is at the model's own probability, with winnings cut by 5% to mimic a bookmaker margin.
 - Betting stops if the bankroll hits zero.
 
@@ -95,14 +95,14 @@ Final bankroll after the tournament:
 
 | When the bet is placed | ≥50% | ≥60% | ≥70% | ≥80% | ≥90% |
 |---|---|---|---|---|---|
-| Before the toss | bust | ₹4,123 | no bets | no bets | no bets |
-| Innings break | bust | ₹3,980 | ₹6,817 | ₹5,725 | ₹9,140 |
-| Chase, 10 overs | ₹13,334 | ₹9,203 | ₹13,244 | ₹12,830 | ₹11,207 |
-| Chase, 18 overs | ₹12,369 | ₹13,721 | ₹12,266 | ₹11,265 | ₹10,848 |
+| Before the toss | bust | bust | no bets | no bets | no bets |
+| Innings break | bust | bust | ₹3,634 | ₹1,397 | ₹8,279 |
+| Chase, 10 overs | ₹16,667 | ₹8,407 | ₹16,488 | ₹15,660 | ₹12,413 |
+| Chase, 18 overs | ₹14,738 | ₹17,441 | ₹14,532 | ₹12,529 | ₹11,695 |
 
 - **Before the match and at the innings break:** betting lost money, and several strategies went bust.
 - **Chase-stage strategies ended in profit in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. It is one season, not repeatable evidence.
-- **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets.
+- **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets (₹10,000 down to ₹4,647).
 
 All checkpoints, the 2,000-run luck analysis and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
 
