@@ -3,7 +3,7 @@
 A walk-forward study of an IPL match-winner model at ten points in a match, from before the toss to the 18th over of the chase. For each point it answers two questions:
 
 1. **When the model says X% confident, how often is it right?** (calibration, by confidence band)
-2. **What would a ₹10,000 bankroll have done betting on it?** (a simulation only - see [DISCLAIMER.md](DISCLAIMER.md))
+2. **What would a ₹10,000 bankroll have done betting on it through the IPL 2026 tournament?** (a simulation only - see [DISCLAIMER.md](DISCLAIMER.md))
 
 Evaluation window: **IPL 2024, 2025 and 2026** (215 decided matches). Every prediction was made using only matches played before it. The model was never trained on the match it predicts.
 
@@ -15,7 +15,7 @@ Evaluation window: **IPL 2024, 2025 and 2026** (215 decided matches). Every pred
 - **The model becomes informative as the match unfolds.** Accuracy climbs from about 50% before the toss to 68% at the innings break, 81% at 10 overs into the chase and 90% at 18 overs.
 - **High-confidence calls late in the chase hold up.** At 10 overs into the chase, picks at 90%+ confidence won 65/69 (94%). At 18 overs, 118/120 (98%).
 - **The innings break is still overconfident at the top end.** Picks at 90%+ won only 16/21 (76%).
-- **No betting edge was found.** Against real prediction-market prices (Polymarket, 73 matches of IPL 2026) the model lost money, with a confidence interval spanning zero. At "fair" odds, which assume the market prices exactly at the model's number, results cluster around break-even. That is the expected result for a calibrated model, not a money-making one.
+- **No betting edge was found.** Against real prediction-market prices (Polymarket, 73 matches of IPL 2026) the model lost money, with a confidence interval spanning zero. In the IPL 2026 simulation, betting before the match or at the innings break lost money. Chase-stage bets ended up only at "fair" odds, which assume someone prices exactly at the model's own number. That is not a real-world edge.
 
 ## Accuracy by situation and confidence
 
@@ -66,23 +66,31 @@ Most public IPL "prediction" projects report a single accuracy figure, often mea
 
 Full details are in [METHODOLOGY.md](METHODOLOGY.md).
 
-## Betting simulation in one table
+## Betting simulation: IPL 2026 tournament
 
-Hypothetical only (see [DISCLAIMER.md](DISCLAIMER.md)). The simulation starts with ₹10,000, bets a flat ₹1,000 on the model's pick whenever its confidence is at least the threshold, and pays at "fair" odds equal to the model's own probability. Figures are the final bankroll.
+Hypothetical only (see [DISCLAIMER.md](DISCLAIMER.md)).
 
-| Situation | ≥50% | ≥60% | ≥70% | ≥80% | ≥90% |
+**Setup:**
+- Only IPL 2026 is used, because every 2026 prediction came from models trained on earlier matches.
+- The bankroll starts at ₹10,000 at the first match. Matches are taken in date order, with at most one bet per match.
+- A flat ₹1,000 goes on the model's pick whenever its confidence is at least the threshold.
+- Payout is at the model's own probability, with winnings cut by 5% to mimic a bookmaker margin.
+- Betting stops if the bankroll hits zero.
+
+Final bankroll after the tournament:
+
+| When the bet is placed | ≥50% | ≥60% | ≥70% | ≥80% | ≥90% |
 |---|---|---|---|---|---|
-| Before the toss | -₹13,219 | -₹6,389 | no bets | no bets | no bets |
-| Innings break | ₹3,570 | ₹6,700 | ₹10,301 | ₹2,932 | ₹6,014 |
-| Chase, 10 overs | ₹11,969 | ₹6,874 | ₹14,506 | ₹10,957 | ₹9,557 |
-| Chase, 18 overs | ₹9,796 | ₹11,234 | ₹11,863 | ₹10,209 | ₹10,948 |
+| Before the toss | bust | ₹4,123 | no bets | no bets | no bets |
+| Innings break | bust | ₹3,980 | ₹6,817 | ₹5,725 | ₹9,140 |
+| Chase, 10 overs | ₹13,334 | ₹9,203 | ₹13,244 | ₹12,830 | ₹11,207 |
+| Chase, 18 overs | ₹12,369 | ₹13,721 | ₹12,266 | ₹11,265 | ₹10,848 |
 
-- **Before the match:** every strategy lost, and betting on every match went bust.
-- **Later in the match:** results scatter around ₹10,000. That is what luck around break-even looks like, not an edge.
-- **High confidence pays little:** at 90%+ confidence a win pays only about ₹50-100, so one loss cancels 10-20 wins.
-- **Against real Polymarket prices:** the model lost money, with a -6% return on 43 pre-match bets.
+- **Before the match and at the innings break:** betting lost money, and several strategies went bust.
+- **Chase-stage strategies ended up in 2026, but that is not an edge.** The payout assumes someone prices exactly at the model's number. The profit comes from the model being too cautious late in chases (for example 37 of 38 wins at about 87% average confidence), not from beating a real market. The same strategies lost in some earlier seasons.
+- **Against real Polymarket prices before the toss:** the model lost money, with a -6% return on 43 bets.
 
-Every checkpoint and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
+All checkpoints, the 2,000-run luck analysis and the real-price comparison are in [BETTING_SIMULATION.md](BETTING_SIMULATION.md).
 
 ## What was tried and did not help
 
@@ -108,7 +116,7 @@ Negative results are reported deliberately. They are as informative as the posit
 |---|---|
 | [METHODOLOGY.md](METHODOLOGY.md) | Data, features, models, walk-forward evaluation, leakage checks, what was tried and rejected |
 | [RESULTS.md](RESULTS.md) | Calibration by confidence band at every checkpoint, with confidence intervals |
-| [BETTING_SIMULATION.md](BETTING_SIMULATION.md) | The ₹10,000 bankroll simulation at fair odds and at real market prices |
+| [BETTING_SIMULATION.md](BETTING_SIMULATION.md) | The ₹10,000 bankroll simulation for IPL 2026: per-checkpoint results, 2,000-run luck analysis, real market prices |
 | [DISCLAIMER.md](DISCLAIMER.md) | Legal and financial disclaimer |
 | `scripts/build_tables.py` | Regenerates the summary tables locally from the private pipeline (outputs are not committed) |
 
